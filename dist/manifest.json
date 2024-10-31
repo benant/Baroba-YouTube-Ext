@@ -1,0 +1,15 @@
+{
+	"manifest_version": 3,
+	"name": "Baroba-YouTube-Ext",
+	"version": "1.0",
+	"description": "This is the BAROBA Chrome browser extension plugin for watching YouTube videos in a popup.",
+	"permissions": ["activeTab"],
+	"content_scripts": [
+	  {
+		"matches": ["https://www.youtube.com/*"],
+		"js": ["content.js"],
+		"css": ["styles.css"]
+	  }
+	]
+  }
+  

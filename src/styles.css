@@ -1,0 +1,6 @@
+/* styles.css */
+.popup-icon {
+	position: absolute;
+	z-index: 10; /* 썸네일 위에 표시되도록 설정 */
+}
+  
