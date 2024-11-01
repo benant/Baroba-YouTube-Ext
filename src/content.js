@@ -16,12 +16,12 @@ if (!document.getElementById('popup')) {
 // 썸네일에 아이콘 추가 함수
 const addIconToThumbnails = () => {
   const thumbnails = document.querySelectorAll('a#thumbnail');
-  console.log(`썸네일 개수: ${thumbnails.length}`); // 썸네일 개수 로그
+  // console.log(`썸네일 개수: ${thumbnails.length}`); // 썸네일 개수 로그
 
   thumbnails.forEach(thumbnail => {
     // 이미 아이콘이 추가된 경우는 건너뜁니다.
     if (thumbnail.querySelector('.popup-icon')) {
-      console.log('아이콘이 이미 추가된 썸네일 건너뜀');
+      // console.log('아이콘이 이미 추가된 썸네일 건너뜀');
       return;
     }
 
@@ -51,7 +51,7 @@ const addIconToThumbnails = () => {
 
     // 썸네일에 아이콘 추가
     thumbnail.appendChild(icon);
-    console.log('아이콘 추가됨:', thumbnail.href); // 아이콘 추가된 썸네일 로그
+    // console.log('아이콘 추가됨:', thumbnail.href); // 아이콘 추가된 썸네일 로그
 
     // 아이콘 클릭 이벤트
     icon.addEventListener('click', (event) => {
@@ -94,3 +94,6 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 // 초기 썸네일에 아이콘 추가
 addIconToThumbnails();
+
+// 미리보기 ... 영상이 가림 ... 숨김 처리함
+document.getElementById('video-preview').style.display = 'none';
