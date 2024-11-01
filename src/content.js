@@ -1,6 +1,6 @@
 // 팝업 레이어 HTML 구조 생성
 const popupHTML = `
-  <div id="popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 1000;">
+  <div id="popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 9000;">
     <div style="position: relative; width: 100%; max-width: 1200px; background: white; padding: 20px; border-radius: 8px;">
       <button id="closePopup" style="position: absolute; top: 10px; right: 10px;">닫기</button>
       <iframe id="videoFrame" width="100%" height="675" frameborder="0" allowfullscreen></iframe>
