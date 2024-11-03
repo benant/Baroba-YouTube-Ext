@@ -60,7 +60,7 @@ const addIconToThumbnails = () => {
 
       const videoId = extractVideoId(thumbnail.href);
       if (videoId) {
-        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`; // 자동 실행을 위한 쿼리 추가
         const videoFrame = document.getElementById('videoFrame');
         videoFrame.src = embedUrl; // iframe에 embed URL 설정
 
