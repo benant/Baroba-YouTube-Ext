@@ -60,9 +60,20 @@ const addIconToThumbnails = () => {
 
       const videoId = extractVideoId(thumbnail.href);
       if (videoId) {
+        // @todo https://www.youtube.com/iframe_api 으로 변경하기. view-source:https://www.shop-plus.kr/tv_and/ 참고
         const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`; // 자동 실행을 위한 쿼리 추가
         const videoFrame = document.getElementById('videoFrame');
         videoFrame.src = embedUrl; // iframe에 embed URL 설정
+
+        // .ytp-pause-overlay 숨김처리
+        setTimeout(function(){
+          // console.log('.ytp-pause-overlay 숨김처리');
+          const pauseOverlay = videoFrame.contentDocument.querySelector('.ytp-pause-overlay'); // iframe 내부의 .ytp-pause-overlay 선택
+          // console.log('pauseOverlay:', pauseOverlay);
+          if (pauseOverlay) {
+              pauseOverlay.innerHTML = ''; // .ytp-pause-overlay의 내용을 비웁니다.
+          }
+        }, 2000);
 
         const popup = document.getElementById('popup');
         popup.style.display = 'flex'; // 팝업 레이어 표시
