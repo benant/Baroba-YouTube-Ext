@@ -15,7 +15,8 @@ if (!document.getElementById('popup')) {
 
 // 썸네일에 아이콘 추가 함수
 const addIconToThumbnails = () => {
-  const thumbnails = document.querySelectorAll('a#thumbnail');
+  const thumbnails = document.querySelectorAll('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still');
+  // const thumbnails = document.querySelectorAll('a#thumbnail');
   // console.log(`썸네일 개수: ${thumbnails.length}`); // 썸네일 개수 로그
 
   thumbnails.forEach(thumbnail => {
@@ -86,7 +87,8 @@ const addIconToThumbnails = () => {
 
 // 유튜브 영상 ID 추출 함수
 const extractVideoId = (url) => {
-  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+  // const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regex);
   return match ? match[1] : null; // 영상 ID 반환
 };
