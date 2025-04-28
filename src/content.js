@@ -110,3 +110,15 @@ addIconToThumbnails();
 
 // 미리보기 ... 영상이 가림 ... 숨김 처리함
 document.getElementById('video-preview').style.display = 'none';
+
+setInterval(function(){
+  
+  chrome.storage.sync.get(['popupView'], (data) => {
+    if(data.popupView == 'N') {
+      $('.popup-icon').hide();
+    } else {
+      $('.popup-icon').show();
+    }
+  });
+
+}, 1000)
