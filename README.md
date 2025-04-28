@@ -21,3 +21,43 @@ This extension provides a feature that allows you to view YouTube videos directl
 - Name: Baroba
 - Website: [baroba.kr](https://www.baroba.kr)
 
+
+## Features
+
+The following are the features of Baroba Chrome Extensions for YouTube.
+
+### Popup View
+
+This feature allows you to watch YouTube videos in a popup without entering the video page. Click the play button displayed in the center of the thumbnail to show the video in a popup.
+
+![Popup View Image 1 - Popup Play Button](assets/popup-view-1.png)
+
+Popup View Image 1 - Popup Play Button
+
+![Popup View Image 2 - Popup Play Screen](assets/popup-view-2.png)
+
+Popup View Image 2 - Popup Play Screen
+
+### Playlist Search
+
+When you find a good video and want to add it to a playlist, it can be difficult to find the right playlist among many playlists. That's why we've added a simple search function.
+
+![Playlist Search Image 1 - Add to Playlist Button](assets/search-playlist-1.png)
+
+Playlist Search Image 1 - Add to Playlist Button
+
+![Playlist Search Image 2 - Save Video](assets/search-playlist-2.png)
+
+Playlist Search Image 2 - Save Video
+
+![Playlist Search Image 3 - Playlist Search](assets/search-playlist-3.png)
+
+Playlist Search Image 3 - Playlist Search
+
+### Settings
+
+You can turn on/off the popup view and playlist search features in the settings window.
+
+![Image 1 - Settings Window](assets/setting-window.png)
+
+Settings Window
