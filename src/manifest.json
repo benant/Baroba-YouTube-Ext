@@ -17,9 +17,12 @@
 	"content_scripts": [
 	  {
 		"matches": ["https://www.youtube.com/*"],
-		"js": ["jquery-3.7.1.min.js","content.js","search_playlist.js"],
-		"css": ["styles.css"]
+		"js": ["jquery-3.7.1.min.js","content.js","search_playlist.js","remove_ads.js"],
+		"css": ["styles.css","remove_ads.css"]
 	  }
+	],
+	"host_permissions": [
+		"https://www.youtube-nocookie.com/*"
 	]
   }
   

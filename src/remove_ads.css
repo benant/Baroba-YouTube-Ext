@@ -1,0 +1,9 @@
+/* 일시 정지 오버레이 컨테이너 숨기기 */
+.ytp-pause-overlay-container {
+	display: none !important;
+}
+
+/* 관련 동영상 섹션 제거 */
+/* .ytp-related-on-error-overlay {
+	visibility: hidden !important;
+} */
