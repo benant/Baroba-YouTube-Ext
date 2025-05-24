@@ -17,7 +17,7 @@
 	"content_scripts": [
 	  {
 		"matches": ["https://www.youtube.com/*"],
-		"js": ["jquery-3.7.1.min.js","content.js","search_playlist.js","remove_ads.js"],
+		"js": ["jquery-3.7.1.min.js","content.js","search_playlist.js","goto_next.js","remove_ads.js"],
 		"css": ["styles.css","remove_ads.css"]
 	  }
 	],
