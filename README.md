@@ -1,5 +1,9 @@
+
 # Baroba Chrome Extention for Youtube.com
 This is the BAROBA Chrome browser extension plugin for watching YouTube videos in a popup.
+<div align="center">
+  <img src="assets/Small-Promotional-Tile.png" alt="logo">
+</div>
 
 ## Extension Description
 This extension provides a feature that allows you to view YouTube videos directly in a pop-up. Users can watch videos in a pop-up layer by clicking on the icon added to the thumbnail. The pop-up layer is designed to be easily closed by users.
