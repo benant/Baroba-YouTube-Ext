@@ -15,7 +15,7 @@ if (!document.getElementById('popup')) {
 
 // 썸네일에 아이콘 추가 함수
 const addIconToThumbnails = () => {
-  const thumbnails = document.querySelectorAll('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still');
+  const thumbnails = document.querySelectorAll('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still, div.ytThumbnailViewModelImage');
   // const thumbnails = document.querySelectorAll('a#thumbnail');
   // console.log(`썸네일 개수: ${thumbnails.length}`); // 썸네일 개수 로그
 
@@ -58,8 +58,10 @@ const addIconToThumbnails = () => {
     icon.addEventListener('click', (event) => {
       event.stopPropagation(); // 클릭 이벤트 전파 방지
       event.preventDefault(); // 기본 동작 방지
+      let link = thumbnail.href ? thumbnail.href : $(icon).closest('a').attr('href');
+      console.log('link is ',link);
 
-      const videoId = extractVideoId(thumbnail.href);
+      const videoId = extractVideoId(link);
       if (videoId) {
         // @todo https://www.youtube.com/iframe_api 으로 변경하기. view-source:https://www.shop-plus.kr/tv_and/ 참고
         const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`; // 자동 실행을 위한 쿼리 추가
@@ -87,8 +89,8 @@ const addIconToThumbnails = () => {
 
 // 유튜브 영상 ID 추출 함수
 const extractVideoId = (url) => {
-  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
-  // const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  // const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/|watch\?v=)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regex);
   return match ? match[1] : null; // 영상 ID 반환
 };
