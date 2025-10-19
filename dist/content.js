@@ -42,7 +42,7 @@ const addIconToThumbnails = () => {
     icon.style.alignItems = 'center';
     icon.style.justifyContent = 'center';
     icon.style.cursor = 'pointer';
-    icon.innerHTML = '▶️'; // 아이콘으로 사용할 문자
+    icon.innerHTML = '▶'; // 아이콘으로 사용할 문자
 
     // 썸네일의 부모 요소에 position: relative; 추가
     const parent = thumbnail.parentElement;

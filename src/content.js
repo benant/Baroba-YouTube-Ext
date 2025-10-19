@@ -35,14 +35,15 @@ const addIconToThumbnails = () => {
     icon.style.width = '30px';
     icon.style.height = '30px';
     icon.style.padding = '0 2px 5px 3px';
-    icon.style.fontSize = '20px';
+    icon.style.fontSize = '15px';
     icon.style.backgroundColor = 'rgba(255, 0, 0, 0.8)'; // 배경색을 검은색으로 변경
     icon.style.borderRadius = '50%';
     icon.style.display = 'flex';
     icon.style.alignItems = 'center';
     icon.style.justifyContent = 'center';
     icon.style.cursor = 'pointer';
-    icon.innerHTML = '▶️'; // 아이콘으로 사용할 문자
+    icon.style.color = '#fff';
+    icon.innerHTML = '▶'; // 아이콘으로 사용할 문자
 
     // 썸네일의 부모 요소에 position: relative; 추가
     const parent = thumbnail.parentElement;
