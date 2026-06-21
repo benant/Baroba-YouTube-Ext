@@ -112,16 +112,35 @@ observer.observe(document.body, { childList: true, subtree: true });
 addIconToThumbnails();
 
 // 미리보기 ... 영상이 가림 ... 숨김 처리함
-document.getElementById('video-preview').style.display = 'none';
+const videoPreview = document.getElementById('video-preview');
+if (videoPreview) {
+  videoPreview.style.display = 'none';
+}
 
-setInterval(function(){
-  
-  chrome.storage.sync.get(['popupView'], (data) => {
-    if(data.popupView == 'N') {
-      $('.popup-icon').hide();
-    } else {
-      $('.popup-icon').show();
-    }
-  });
+const isExtensionContextValid = () => {
+  try {
+    return Boolean(chrome.runtime && chrome.runtime.id);
+  } catch (error) {
+    return false;
+  }
+};
 
-}, 1000)
+const popupViewInterval = setInterval(function () {
+  if (!isExtensionContextValid()) {
+    clearInterval(popupViewInterval);
+    return;
+  }
+
+  try {
+    chrome.storage.sync.get(['popupView'], (data) => {
+      if (!isExtensionContextValid() || chrome.runtime.lastError) return;
+      if (data.popupView == 'N') {
+        $('.popup-icon').hide();
+      } else {
+        $('.popup-icon').show();
+      }
+    });
+  } catch (error) {
+    clearInterval(popupViewInterval);
+  }
+}, 1000);
