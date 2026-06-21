@@ -3,4 +3,30 @@
 	position: absolute;
 	z-index: 10; /* 썸네일 위에 표시되도록 설정 */
 }
+
+.baroba-playlist-search {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: inherit;
+}
+
+.baroba-playlist-search label,
+.baroba-playlist-search-input {
+	color: inherit;
+	caret-color: currentColor;
+}
+
+.baroba-playlist-search-input {
+	width: 12rem;
+	border: 1px solid var(--yt-spec-10-percent-layer, gray);
+	border-radius: 1rem;
+	padding: 5px 1rem;
+	background: transparent;
+}
+
+.baroba-playlist-search-input::placeholder {
+	color: inherit;
+	opacity: 0.6;
+}
   
