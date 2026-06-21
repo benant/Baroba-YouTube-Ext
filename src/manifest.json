@@ -22,7 +22,14 @@
 	  }
 	],
 	"host_permissions": [
-		"https://www.youtube-nocookie.com/*"
+		"https://www.youtube-nocookie.com/*",
+		"https://baroba.benant.net/*"
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["player-frame.html"],
+			"matches": ["https://www.youtube.com/*"]
+		}
 	]
   }
   

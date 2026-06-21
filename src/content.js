@@ -3,7 +3,7 @@ const popupHTML = `
   <div id="popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 9000;">
     <div style="position: relative; width: 100%; max-width: 1200px; background: white; padding: 20px; border-radius: 8px;">
       <button id="closePopup" style="position: absolute; top: 10px; right: 10px;">닫기</button>
-      <iframe id="videoFrame" width="100%" height="675" frameborder="0" allowfullscreen></iframe>
+      <iframe id="videoFrame" width="100%" height="675" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
     </div>
   </div>
 `;
@@ -57,30 +57,27 @@ const addIconToThumbnails = () => {
 
     // 아이콘 클릭 이벤트
     icon.addEventListener('click', (event) => {
-      event.stopPropagation(); // 클릭 이벤트 전파 방지
-      event.preventDefault(); // 기본 동작 방지
-      let link = thumbnail.href ? thumbnail.href : $(icon).closest('a').attr('href');
-      console.log('link is ',link);
+      event.stopPropagation();
+      event.preventDefault();
+
+      let link = thumbnail.href || $(icon).closest('a').attr('href') || '';
+      if (link.startsWith('/')) {
+        link = 'https://www.youtube.com' + link;
+      }
 
       const videoId = extractVideoId(link);
       if (videoId) {
-        // @todo https://www.youtube.com/iframe_api 으로 변경하기. view-source:https://www.shop-plus.kr/tv_and/ 참고
-        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`; // 자동 실행을 위한 쿼리 추가
+        const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        const playerUrl = `${chrome.runtime.getURL('player-frame.html')}?url=${encodeURIComponent(youtubeUrl)}`;
         const videoFrame = document.getElementById('videoFrame');
-        videoFrame.src = embedUrl; // iframe에 embed URL 설정
-
-        // .ytp-pause-overlay 숨김처리
-        setTimeout(function(){
-          // console.log('.ytp-pause-overlay 숨김처리');
-          const pauseOverlay = videoFrame.contentDocument.querySelector('.ytp-pause-overlay'); // iframe 내부의 .ytp-pause-overlay 선택
-          // console.log('pauseOverlay:', pauseOverlay);
-          if (pauseOverlay) {
-              pauseOverlay.innerHTML = ''; // .ytp-pause-overlay의 내용을 비웁니다.
-          }
-        }, 2000);
-
         const popup = document.getElementById('popup');
-        popup.style.display = 'flex'; // 팝업 레이어 표시
+
+        popup.style.display = 'flex';
+        videoFrame.src = playerUrl;
+
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
       } else {
         alert('영상 ID를 추출할 수 없습니다.');
       }
