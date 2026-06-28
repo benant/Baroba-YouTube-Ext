@@ -1,9 +1,11 @@
 // 팝업 레이어 HTML 구조 생성
 const popupHTML = `
-  <div id="popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 9000;">
-    <div style="position: relative; width: 100%; max-width: 1200px; background: white; padding: 20px; border-radius: 8px;">
-      <button id="closePopup" style="position: absolute; top: 10px; right: 10px;">닫기</button>
-      <iframe id="videoFrame" width="100%" height="675" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+  <div id="popup">
+    <div id="popupContent">
+      <div class="baroba-popup-controls">
+        <button id="closePopup" type="button">닫기</button>
+      </div>
+      <iframe id="videoFrame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
     </div>
   </div>
 `;
@@ -13,54 +15,55 @@ if (!document.getElementById('popup')) {
   document.body.insertAdjacentHTML('beforeend', popupHTML);
 }
 
+// 썸네일 호스트(아이콘 부착 위치) 찾기
+const getIconHost = (element) => {
+  const viewModel = element.closest('yt-thumbnail-view-model') || element.querySelector('yt-thumbnail-view-model');
+  if (viewModel) return viewModel;
+  return element.closest('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still') || element;
+};
+
+// 영상 링크 요소 찾기
+const getLinkElement = (element, host) => {
+  return element.closest('a[href*="/watch"], a[href*="/shorts/"], a[href*="youtu.be"]')
+    || host.closest('a[href*="/watch"], a[href*="/shorts/"], a[href*="youtu.be"]');
+};
+
 // 썸네일에 아이콘 추가 함수
 const addIconToThumbnails = () => {
-  const thumbnails = document.querySelectorAll('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still, div.ytThumbnailViewModelImage');
-  // const thumbnails = document.querySelectorAll('a#thumbnail');
-  // console.log(`썸네일 개수: ${thumbnails.length}`); // 썸네일 개수 로그
+  const thumbnails = document.querySelectorAll('a#thumbnail, a.reel-item-endpoint, a.ytp-videowall-still, a.ytLockupViewModelContentImage, div.ytThumbnailViewModelImage');
+  const processedHosts = new Set();
 
   thumbnails.forEach(thumbnail => {
-    // 이미 아이콘이 추가된 경우는 건너뜁니다.
-    if (thumbnail.querySelector('.popup-icon')) {
-      // console.log('아이콘이 이미 추가된 썸네일 건너뜀');
+    const host = getIconHost(thumbnail);
+    if (!host || processedHosts.has(host)) return;
+    processedHosts.add(host);
+
+    const linkElement = getLinkElement(thumbnail, host);
+    const existingIcon = host.querySelector('.popup-icon');
+
+    // 호버 미리보기 오버레이가 추가되면 아이콘을 맨 위로 다시 올림
+    if (existingIcon) {
+      host.style.position = 'relative';
+      if (host.lastElementChild !== existingIcon) {
+        host.appendChild(existingIcon);
+      }
       return;
     }
 
     // 팝업 아이콘 생성
     const icon = document.createElement('div');
     icon.className = 'popup-icon';
-    icon.style.position = 'absolute';
-    icon.style.top = 'calc(50% - 15px)';
-    icon.style.left = 'calc(50% - 15px)';
-    icon.style.width = '30px';
-    icon.style.height = '30px';
-    icon.style.padding = '0 2px 5px 3px';
-    icon.style.fontSize = '15px';
-    icon.style.backgroundColor = 'rgba(255, 0, 0, 0.8)'; // 배경색을 검은색으로 변경
-    icon.style.borderRadius = '50%';
-    icon.style.display = 'flex';
-    icon.style.alignItems = 'center';
-    icon.style.justifyContent = 'center';
-    icon.style.cursor = 'pointer';
-    icon.style.color = '#fff';
-    icon.innerHTML = '▶'; // 아이콘으로 사용할 문자
+    icon.innerHTML = '▶';
 
-    // 썸네일의 부모 요소에 position: relative; 추가
-    const parent = thumbnail.parentElement;
-    if (parent) {
-      parent.style.position = 'relative'; // 부모 요소의 위치를 상대적으로 설정
-    }
-
-    // 썸네일에 아이콘 추가
-    thumbnail.appendChild(icon);
-    // console.log('아이콘 추가됨:', thumbnail.href); // 아이콘 추가된 썸네일 로그
+    host.style.position = 'relative';
+    host.appendChild(icon);
 
     // 아이콘 클릭 이벤트
     icon.addEventListener('click', (event) => {
       event.stopPropagation();
       event.preventDefault();
 
-      let link = thumbnail.href || $(icon).closest('a').attr('href') || '';
+      let link = linkElement?.href || $(icon).closest('a').attr('href') || '';
       if (link.startsWith('/')) {
         link = 'https://www.youtube.com' + link;
       }
@@ -70,9 +73,8 @@ const addIconToThumbnails = () => {
         const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
         const playerUrl = `${chrome.runtime.getURL('player-frame.html')}?url=${encodeURIComponent(youtubeUrl)}`;
         const videoFrame = document.getElementById('videoFrame');
-        const popup = document.getElementById('popup');
 
-        popup.style.display = 'flex';
+        openPopupLayer();
         videoFrame.src = playerUrl;
 
         if (document.activeElement instanceof HTMLElement) {
@@ -93,13 +95,27 @@ const extractVideoId = (url) => {
   return match ? match[1] : null; // 영상 ID 반환
 };
 
+const popup = document.getElementById('popup');
+
+const openPopupLayer = () => {
+  popup.style.display = 'flex';
+  document.body.classList.add('baroba-popup-open');
+};
+
+const closePopupLayer = () => {
+  popup.style.display = 'none';
+  document.getElementById('videoFrame').src = '';
+  document.body.classList.remove('baroba-popup-open');
+  chrome.storage.sync.get(['popupView'], (data) => {
+    if (chrome.runtime.lastError) return;
+    if (data.popupView !== 'N') {
+      $('.popup-icon').show();
+    }
+  });
+};
+
 // 팝업 닫기 버튼 이벤트
-document.getElementById('closePopup').addEventListener('click', () => {
-  const popup = document.getElementById('popup');
-  popup.style.display = 'none'; // 팝업 레이어 숨기기
-  const videoFrame = document.getElementById('videoFrame');
-  videoFrame.src = ''; // iframe src 초기화
-});
+document.getElementById('closePopup').addEventListener('click', closePopupLayer);
 
 // MutationObserver를 사용하여 동적으로 추가되는 썸네일에도 아이콘 추가
 const observer = new MutationObserver(addIconToThumbnails);
@@ -133,7 +149,7 @@ const popupViewInterval = setInterval(function () {
       if (!isExtensionContextValid() || chrome.runtime.lastError) return;
       if (data.popupView == 'N') {
         $('.popup-icon').hide();
-      } else {
+      } else if (!document.body.classList.contains('baroba-popup-open')) {
         $('.popup-icon').show();
       }
     });

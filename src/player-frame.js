@@ -5,7 +5,7 @@ if (youtubeUrl) {
 	const barobaPlayer = document.getElementById('barobaPlayer');
 	const playerUrl = 'https://baroba.benant.net/youtube/player?url='
 		+ encodeURIComponent(youtubeUrl)
-		+ '&embed=1';
+		+ '&embed=1&cover=0';
 
 	barobaPlayer.src = playerUrl;
 

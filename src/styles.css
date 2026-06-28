@@ -1,7 +1,71 @@
 /* styles.css */
 .popup-icon {
 	position: absolute;
-	z-index: 10; /* 썸네일 위에 표시되도록 설정 */
+	top: calc(50% - 15px);
+	left: calc(50% - 15px);
+	width: 30px;
+	height: 30px;
+	padding: 0 2px 5px 3px;
+	font-size: 15px;
+	background-color: rgba(255, 0, 0, 0.8);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: #fff;
+	z-index: 20;
+	pointer-events: auto;
+}
+
+body.baroba-popup-open .popup-icon {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+#popup {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	justify-content: center;
+	align-items: center;
+	z-index: 2147483646;
+}
+
+#popupContent {
+	position: relative;
+	width: 100%;
+	max-width: 1200px;
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+#videoFrame {
+	display: block;
+	width: 100%;
+	height: 675px;
+	border: 0;
+}
+
+.baroba-popup-controls {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 1;
+}
+
+.baroba-popup-controls button {
+	cursor: pointer;
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.95);
 }
 
 .baroba-playlist-search {
